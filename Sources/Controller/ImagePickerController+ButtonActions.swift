@@ -28,7 +28,7 @@ extension ImagePickerController {
         
         // Setup presentation controller
         albumsViewController.transitioningDelegate = dropdownTransitionDelegate
-        albumsViewController.modalPresentationStyle = .custom
+//        albumsViewController.modalPresentationStyle = .overCurrentContext
         rotateButtonArrow()
         
         present(albumsViewController, animated: true)

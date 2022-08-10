@@ -38,6 +38,8 @@ class AlbumsViewController: UIViewController {
     private var dataSource: AlbumsTableViewDataSource?
     private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
     private let lineView: UIView = UIView()
+    private let headerView: UIView = UIView()
+    private let closeButton: UIButton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +48,7 @@ class AlbumsViewController: UIViewController {
         dataSource?.settings = settings
 
         tableView.frame = view.bounds
+//        tableView.frame.origin.y = tableView.frame.origin.y + 50
         tableView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 100
@@ -58,18 +61,47 @@ class AlbumsViewController: UIViewController {
         tableView.dataSource = dataSource
         tableView.delegate = self
         tableView.backgroundColor = settings.theme.dropDownBackgroundColor
+        tableView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         view.addSubview(tableView)
+        
+        headerView.frame = view.bounds
+        headerView.frame.size.height = 50
+        headerView.backgroundColor = .white
+        headerView.layer.shadowColor = UIColor.black.cgColor
+        headerView.layer.shadowOffset = CGSize(width: 0, height: 10)
+        headerView.layer.shadowOpacity = 0.1
+        headerView.layer.shadowRadius = 10
+        view.addSubview(headerView)
+        
+        
+        closeButton.frame = CGRect(origin: .zero, size: CGSize(width: 45, height: 45))
+        closeButton.center = CGPoint(x: 25, y: 25)
+//        closeButton.setTitle("Cancel", for: .normal)
+//        closeButton.setImage(UIImage(systemName: "line.horizontal.3.decrease.circle.fill"), for: .normal)
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .default)
+               
+        let largeBoldDoc = UIImage(systemName: "xmark", withConfiguration: largeConfig)
 
+        closeButton.setImage(largeBoldDoc, for: .normal)
+
+
+//        closeButton.addAction(self, action: #selector(self.closeCallback(sender:)), for: .touchUpInside)
+        closeButton.addAction(.init { _ in self.dismiss(animated: true) }, for: .touchUpInside)
+        headerView.addSubview(closeButton)
+        
         let lineHeight: CGFloat = 0.5
         lineView.frame = view.bounds
         lineView.frame.size.height = lineHeight
         lineView.frame.origin.y = view.frame.size.height - lineHeight
         lineView.backgroundColor = .gray
         lineView.autoresizingMask = [.flexibleTopMargin, .flexibleWidth]
-        view.addSubview(lineView)
+//        view.addSubview(lineView)
 
-        modalPresentationStyle = .popover
+        modalPresentationStyle = .overCurrentContext
         preferredContentSize = CGSize(width: 320, height: 300)
+        
+        self.view.layer.cornerRadius = 20
+        self.view.clipsToBounds = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -82,6 +114,10 @@ class AlbumsViewController: UIViewController {
         if isBeingDismissed {
             delegate?.didDismissAlbumsViewController(self)
         }
+    }
+    
+    func closeCallback(sender: UIButton) {
+        
     }
 }
 

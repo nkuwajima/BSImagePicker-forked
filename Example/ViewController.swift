@@ -33,6 +33,13 @@ class ViewController: UIViewController {
         imagePicker.settings.fetch.assets.supportedMediaTypes = [.image, .video]
         imagePicker.settings.selection.unselectOnReachingMax = true
 
+        let options = imagePicker.settings.fetch.album.options
+        
+        imagePicker.settings.fetch.album.fetchResults = [
+            PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: options),
+            PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: options),
+        ]
+        
         let start = Date()
         self.presentImagePicker(imagePicker, select: { (asset) in
             print("Selected: \(asset)")
@@ -76,6 +83,13 @@ class ViewController: UIViewController {
                 return 2
             }
         }
+        
+        let options = imagePicker.settings.fetch.album.options
+        
+        imagePicker.settings.fetch.album.fetchResults = [
+            PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: options),
+            PHAssetCollection.fetchAssetCollections(with: .album, subtype: .albumRegular, options: options),
+        ]
 
         self.presentImagePicker(imagePicker, select: { (asset) in
             print("Selected: \(asset)")
